@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.re.etri.advcloud.mapper.AdvehicleInfoMapper">
+
+	<select id="selectList" parameterType="AdvehicleInfoVO" resultType="AdvehicleInfoVO">
+		SELECT 
+			advehicle_id,
+			user_info_id,
+			DATE_FORMAT(register_date,'%Y/%m/%d %H:%i:%s') as register_date,
+			(select c.codeval from code c where c.codegrp = 'vehicle_type' AND c.code = vehicle_type) as vehicle_type_name,
+			vehicle_model,
+			adsw_package_id
+		FROM advehicle_info
+		<where>
+			<if test="advehicle_id != null and advehicle_id != ''">
+				AND advehicle_id = #{advehicle_id}
+			</if>
+			<if test="user_info_id != null and user_info_id != ''">
+				AND user_info_id = #{user_info_id}
+			</if>
+			<if test="vehicle_type != null and vehicle_type != -1">
+				AND vehicle_type = #{vehicle_type}
+			</if>
+			<if test="vehicle_model != null and vehicle_model != ''">
+				AND vehicle_model = #{vehicle_model}
+			</if>
+			<if test="adsw_package_id != null and adsw_package_id != ''">
+				AND adsw_package_id = #{adsw_package_id}
+			</if>	
+		</where>
+		ORDER BY register_date DESC
+	</select>
+	
+	<select id="select" parameterType="String" resultType="AdvehicleInfoVO">
+		SELECT 
+			* 
+		FROM advehicle_info
+		where
+			advehicle_id = #{advehicle_id}
+	</select>
+	
+	<insert id="insert" parameterType="AdvehicleInfoVO">
+		INSERT INTO advehicle_info
+		<trim prefix="(" prefixOverrides="" suffix=")" suffixOverrides=",">
+			advehicle_id, user_info_id, vehicle_type, vehicle_model, adsw_package_id
+		</trim>
+		VALUES
+		<trim prefix="(" prefixOverrides="" suffix=")" suffixOverrides=",">
+			#{advehicle_id}, #{user_info_id}, #{vehicle_type}, #{vehicle_model}, #{adsw_package_id} 
+		</trim>
+	</insert>
+	
+	<update id="update" parameterType="AdvehicleInfoVO">
+		UPDATE advehicle_info
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="user_info_id != null and user_info_id != ''">user_info_id = #{user_info_id},</if>
+			<if test="vehicle_type != null and vehicle_type != -1">vehicle_type = #{vehicle_type},</if>
+			<if test="vehicle_model != null and vehicle_model != ''">vehicle_model = #{vehicle_model},</if>
+			<if test="adsw_package_id != null and adsw_package_id != ''">adsw_package_id = #{adsw_package_id},</if>
+		</trim>
+		WHERE
+			advehicle_id = #{advehicle_id}
+	</update>
+	
+	<delete id="delete" parameterType="String">
+		DELETE FROM advehicle_info WHERE advehicle_id = #{advehicle_id}
+	</delete>
+	
+</mapper>
