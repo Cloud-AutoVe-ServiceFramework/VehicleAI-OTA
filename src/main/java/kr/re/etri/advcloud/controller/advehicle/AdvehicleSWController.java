@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import kr.re.etri.advcloud.common.constant.FtpClientConstant;
-import kr.re.etri.advcloud.common.util.FtpClientUtils;
+import kr.re.etri.advcloud.common.constant.CommonConstant;
+import kr.re.etri.advcloud.common.util.FileUtil;
 import kr.re.etri.advcloud.common.util.HmacUtils;
 import kr.re.etri.advcloud.common.util.Utils;
 import kr.re.etri.advcloud.controller.ApiResponseMessage;
@@ -35,7 +35,7 @@ public class AdvehicleSWController extends CommonController {
 	AdvehicleSWService advehicleSWService;
 	
 	@Autowired
-    FtpClientConstant ftpClientConstant;
+	CommonConstant commonConstant;
 	
 	@GetMapping("/search")
 	public ResponseEntity<?> search(@ModelAttribute AdvehicleSWVO param) {
@@ -68,7 +68,7 @@ public class AdvehicleSWController extends CommonController {
 
             List<MultipartFile> files = param.getFiles();
             for (int i = 0; i < files.size(); i++) {
-                Map<String, Object> fileUploadData = Utils.saveFile(ftpClientConstant.getAdvehicleSwPath(), files.get(i));
+                Map<String, Object> fileUploadData = Utils.saveFile(commonConstant.getBaseFilePath(), commonConstant.getAdvehicleSwPath(), files.get(i));
 
                 if (fileUploadData != null && !fileUploadData.isEmpty()) {
                     param.setFile_location((String) fileUploadData.get("file_location"));
@@ -82,9 +82,12 @@ public class AdvehicleSWController extends CommonController {
                         advehicleSWService.insert(param);
                         response = responseSuccess();
                     } else {
-                        // FTP 파일 삭제
-                        FtpClientUtils.deleteFile(param.getFile_location());
-
+                        // 파일 삭제
+            			try {
+            				FileUtil.delete(commonConstant.getBaseFilePath() + param.getFile_location());
+        				} catch (Exception e) {
+        				}
+                        
                         throw new Exception("동일한 데이터가 존재합니다.");
                     }
                 }
@@ -109,8 +112,7 @@ public class AdvehicleSWController extends CommonController {
 			if (param.getFiles() != null && param.getFiles().size() == 1) {
 				List<MultipartFile> files = param.getFiles();
 				for (int i = 0; i < files.size(); i++) {
-					Map<String, Object> fileUploadData = Utils.saveFile(ftpClientConstant.getAdvehicleSwPath(),
-							files.get(i));
+					Map<String, Object> fileUploadData = Utils.saveFile(commonConstant.getBaseFilePath(), commonConstant.getAdvehicleSwPath(), files.get(i));
 
 					if (fileUploadData != null && !fileUploadData.isEmpty()) {
 						param.setFile_location((String) fileUploadData.get("file_location"));
@@ -123,15 +125,21 @@ public class AdvehicleSWController extends CommonController {
 						if (dupplicateData == null) {
 							AdvehicleSWVO oldData = advehicleSWService.selectById(param.getSw_serial());
 
-							// FTP 파일 삭제
-							FtpClientUtils.deleteFile(oldData.getFile_location());
+							// 파일 삭제
+		        			try {
+		        				FileUtil.delete(commonConstant.getBaseFilePath() + oldData.getFile_location());
+		    				} catch (Exception e) {
+		    				}
 
 							advehicleSWService.update(param);
 							response = responseSuccess();
 						} else {
-							// FTP 파일 삭제
-							FtpClientUtils.deleteFile(param.getFile_location());
-
+							// 파일 삭제
+		        			try {
+		        				FileUtil.delete(commonConstant.getBaseFilePath() + param.getFile_location());
+		    				} catch (Exception e) {
+		    				}
+							
 							throw new Exception("동일한 데이터가 존재합니다.");
 						}
 					}
@@ -165,9 +173,12 @@ public class AdvehicleSWController extends CommonController {
 
 			AdvehicleSWVO oldData = advehicleSWService.selectById(param.getSw_serial());
 			if (oldData != null) {
-				// FTP 파일 삭제
-				FtpClientUtils.deleteFile(oldData.getFile_location());
-
+				// 파일 삭제
+    			try {
+    				FileUtil.delete(commonConstant.getBaseFilePath() + oldData.getFile_location());
+				} catch (Exception e) {
+				}
+				
 				advehicleSWService.delete(param);
 			}
 			response = responseSuccess();
@@ -202,8 +213,9 @@ public class AdvehicleSWController extends CommonController {
 
                     ByteArrayOutputStream os = new ByteArrayOutputStream();
 
-                    FtpClientUtils.loadFile(filePath, os);
-
+                    // host server file load
+                    FileUtil.loadFile(commonConstant.getBaseFilePath() + filePath, os);
+                    
                     ZipEntry zipEntry = new ZipEntry(id + "/" + fileName);
                     zipEntry.setExtra(installLocationPath.getBytes("UTF-8"));
 
