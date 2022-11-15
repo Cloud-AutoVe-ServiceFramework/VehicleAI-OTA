@@ -9,8 +9,7 @@ public class CommonConstant {
 
 	private String baseFilePath;
 
-	private String edgeSwPath;
-
+	private String advehicleSwPath;
 
 	/**
 	 * @return the baseFilePath
@@ -27,19 +26,18 @@ public class CommonConstant {
 	}
 
 
-
 	/**
-	 * @return the edgeSwPath
+	 * @return the advehicleSwPath
 	 */
-	public String getEdgeSwPath() {
-		return edgeSwPath;
+	public String getAdvehicleSwPath() {
+		return advehicleSwPath;
 	}
 
 	/**
-	 * @param edgeSwPath the edgeSwPath to set
+	 * @param advehicleSwPath the advehicleSwPath to set
 	 */
-	public void setEdgeSwPath(String edgeSwPath) {
-		this.edgeSwPath = edgeSwPath;
+	public void setAdvehicleSwPath(String advehicleSwPath) {
+		this.advehicleSwPath = advehicleSwPath;
 	}
 
 }
