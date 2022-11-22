@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import kr.re.etri.advcloud.mapper.AdvehicleSWMapper;
 import kr.re.etri.advcloud.model.AdvehicleSWVO;
-
+ 
 @Service
 public class AdvehicleSWService {
 	
@@ -18,35 +18,70 @@ public class AdvehicleSWService {
 	@Autowired
 	AdvehicleSWMapper advehicleSWMapper;
 	
-	public List<AdvehicleSWVO> selectList(AdvehicleSWVO param) throws Exception {
-		return advehicleSWMapper.selectList(param);
+	public List<AdvehicleSWVO> selectList(AdvehicleSWVO param) {
+		try {
+			return advehicleSWMapper.selectList(param);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
 	}
 	
-	public List<AdvehicleSWVO> selectDownloadList(AdvehicleSWVO param) throws Exception {
-		return advehicleSWMapper.selectDownloadList(param);
+	public List<AdvehicleSWVO> selectDownloadList(AdvehicleSWVO param) {
+		try {
+			return advehicleSWMapper.selectDownloadList(param);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
 	}
 	
-	public AdvehicleSWVO selectDuplicateRow(AdvehicleSWVO param) throws Exception {
-		return advehicleSWMapper.selectDuplicateRow(param);
+	public AdvehicleSWVO selectDuplicateRow(AdvehicleSWVO param) {
+		try {
+			return advehicleSWMapper.selectDuplicateRow(param);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
 	}
 	
-	public AdvehicleSWVO selectById(int sw_serial) throws Exception {
-		return advehicleSWMapper.selectById(sw_serial);
+	public AdvehicleSWVO selectById(int sw_serial) {
+		try {
+			return advehicleSWMapper.selectById(sw_serial);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
 	}
 	
-	public int insert(AdvehicleSWVO param) throws Exception {
+	public int insert(AdvehicleSWVO param) {
 		logger.info(">>> AdvehicleSWService insert invoked...");
 		logger.info(">>> param: {}", param);
 		
-		return advehicleSWMapper.insert(param);
+		try {
+			return advehicleSWMapper.insert(param);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
 	}
 	
-	public int update(AdvehicleSWVO param) throws Exception {
-		return advehicleSWMapper.update(param);
+	public int update(AdvehicleSWVO param) {
+		try {
+			return advehicleSWMapper.update(param);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
 	}
 	
-	public int delete(AdvehicleSWVO param) throws Exception {
-		return advehicleSWMapper.delete(param);
+	public int delete(AdvehicleSWVO param) {
+		try {
+			return advehicleSWMapper.delete(param);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
 	}
 	
 }
