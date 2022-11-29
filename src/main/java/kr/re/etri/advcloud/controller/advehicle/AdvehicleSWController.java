@@ -1,6 +1,7 @@
 package kr.re.etri.advcloud.controller.advehicle;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -85,7 +86,8 @@ public class AdvehicleSWController extends CommonController {
                         // 파일 삭제
             			try {
             				FileUtil.delete(commonConstant.getBaseFilePath() + param.getFile_location());
-        				} catch (Exception e) {
+        				} catch (IOException e) {
+        					logger.error(e.getMessage(), e);
         				}
                         
                         throw new Exception("동일한 데이터가 존재합니다.");
@@ -128,7 +130,8 @@ public class AdvehicleSWController extends CommonController {
 							// 파일 삭제
 		        			try {
 		        				FileUtil.delete(commonConstant.getBaseFilePath() + oldData.getFile_location());
-		    				} catch (Exception e) {
+		    				} catch (IOException e) {
+		    					logger.error(e.getMessage(), e);
 		    				}
 
 							advehicleSWService.update(param);
@@ -137,7 +140,8 @@ public class AdvehicleSWController extends CommonController {
 							// 파일 삭제
 		        			try {
 		        				FileUtil.delete(commonConstant.getBaseFilePath() + param.getFile_location());
-		    				} catch (Exception e) {
+		    				} catch (IOException e) {
+		    					logger.error(e.getMessage(), e);
 		    				}
 							
 							throw new Exception("동일한 데이터가 존재합니다.");
@@ -176,7 +180,8 @@ public class AdvehicleSWController extends CommonController {
 				// 파일 삭제
     			try {
     				FileUtil.delete(commonConstant.getBaseFilePath() + oldData.getFile_location());
-				} catch (Exception e) {
+				} catch (IOException e) {
+					logger.error(e.getMessage(), e);
 				}
 				
 				advehicleSWService.delete(param);
@@ -200,7 +205,8 @@ public class AdvehicleSWController extends CommonController {
             }
 
             List<AdvehicleSWVO> list = advehicleSWService.selectDownloadList(param);
-
+            logger.debug(">>>>>>>>>>>>>>> AdvehicleSWController download list size: " + list.size());
+            
             if (list != null && list.size() > 0) {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 ZipOutputStream zipOut = new ZipOutputStream(baos);
