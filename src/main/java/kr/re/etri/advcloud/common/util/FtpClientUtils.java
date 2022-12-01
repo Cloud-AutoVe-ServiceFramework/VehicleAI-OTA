@@ -27,17 +27,6 @@ public class FtpClientUtils {
 		ftpClient = new FTPClient();
 	}
 	
-//	public static void close() {
-//		if (ftpClient != null) {
-//			try {
-//				ftpClient.logout();
-//				ftpClient.disconnect();
-//			} catch (Exception e) {
-//				log.error(e.getMessage(), e);
-//			}
-//		}
-//	}
-
 	private static void connect() {
 		try {
 			logger.debug(">>> ftpClientConstant.getHost(): {}", ftpClientConstant.getADVMHost());
@@ -61,13 +50,25 @@ public class FtpClientUtils {
 		}
 	}
 	
+	// XXX: 
+	@SuppressWarnings("hiding")
 	public static boolean saveFile(File file, String workingDirectory, String fileName) {
+		InputStream targetStream = null;
 		try {
-			InputStream targetStream = new FileInputStream(file);
+			targetStream = new FileInputStream(file);
 			return saveFile(targetStream, workingDirectory, fileName);
 		} catch (FileNotFoundException e) {
 			logger.error(e.getMessage(), e);
 			return false;
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+			return false;
+		} finally {
+			try {
+				targetStream.close();
+			} catch (IOException e) {
+				logger.error(e.getMessage(), e);
+			}
 		}
 	}
 	
