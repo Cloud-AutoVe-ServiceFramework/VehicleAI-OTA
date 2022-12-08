@@ -1,3 +1,9 @@
+#-----------------------------------------------------------------------
+#
+#   applicaton-logging : Logging Configuation 
+#   
+#-----------------------------------------------------------------------
+
 #logging:
 #  pattern:
 #    console: '%clr(%d{yyyy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n'
@@ -13,7 +19,7 @@ spring:
 logging:
   file: 
     # path: logs
-    name: logs/data_manager.log
+    name: logs/advehicle_manager.log
     max-history: 10
     max-size: 100MB
   exception-conversion-word: '%wEx'
@@ -40,7 +46,7 @@ spring:
 logging:
   file: 
     # path: logs
-    name: logs/data_manager.log
+    name: logs/advehicle_manager.log
     max-history: 10
     max-size: 100MB
   exception-conversion-word: '%wEx'
@@ -66,7 +72,7 @@ spring:
 logging:
   file: 
     # path: logs
-    name: logs/data_manager.log
+    name: logs/advehicle_manager.log
     max-history: 10
     max-size: 100MB
   exception-conversion-word: '%wEx'
