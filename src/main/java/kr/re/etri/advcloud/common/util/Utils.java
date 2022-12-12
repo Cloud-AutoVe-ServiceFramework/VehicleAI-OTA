@@ -3,9 +3,9 @@ package kr.re.etri.advcloud.common.util;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -126,21 +126,13 @@ public class Utils {
     }
     
 
-
-    public static String convertGMTDateFormat(String creationDateTime) throws ParseException {
+    public static String convertDateTimeFormatString(String creationDateTime) throws ParseException {
+    	Instant instant = Instant.parse(creationDateTime);
+    	Date creationDate = Date.from(instant);
     	
-    	logger.info(">>>>>>>>>>>>>>> creationDateTime: " + creationDateTime);
-        String formatString = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";// determineDateFormat(creationDateTime);
-        logger.info(">>>>>>>>>>>>>>> formatString: " + formatString);
-        if (formatString != null) {
-            SimpleDateFormat format = new SimpleDateFormat(formatString, Locale.US);
-            Date creationDate = format.parse(creationDateTime);
-            SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
 
-            return newFormat.format(creationDate);
-        }
-
-        return null;
+        return newFormat.format(creationDate);
     }
     
 }
