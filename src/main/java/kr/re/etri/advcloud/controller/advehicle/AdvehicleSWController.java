@@ -76,7 +76,7 @@ public class AdvehicleSWController extends CommonController {
                     param.setFile_name((String) fileUploadData.get("file_name"));
                     param.setFile_type((String) fileUploadData.get("file_type"));
                     param.setFile_size((long) fileUploadData.get("file_size"));
-                    param.setCreation_datetime(Utils.convertGMTDateFormat(param.getCreation_datetime()));
+                    param.setCreation_datetime(Utils.convertDateTimeFormatString(param.getCreation_datetime()));	//
 
                     AdvehicleSWVO dupplicateData = advehicleSWService.selectDuplicateRow(param);
                     if (dupplicateData == null) {
@@ -121,7 +121,7 @@ public class AdvehicleSWController extends CommonController {
 						param.setFile_name((String) fileUploadData.get("file_name"));
 						param.setFile_type((String) fileUploadData.get("file_type"));
 						param.setFile_size((long) fileUploadData.get("file_size"));
-						param.setCreation_datetime(Utils.convertGMTDateFormat(param.getCreation_datetime()));
+						param.setCreation_datetime(Utils.convertDateTimeFormatString(param.getCreation_datetime()));	// 
 
 						AdvehicleSWVO dupplicateData = advehicleSWService.selectDuplicateRow(param);
 						if (dupplicateData == null) {
